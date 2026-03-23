@@ -26,7 +26,7 @@ def format_volume(volume: float) -> str:
 def format_currency(amount: float, currency: str = "CNY") -> str:
     symbols = {"CNY": "¥", "USD": "$", "HKD": "HK$", "EUR": "€", "GBP": "£"}
     symbol = symbols.get(currency, currency)
-    return f"{symbol}{amount:,.2f}}" if symbol else f"{amount:,.2f}"
+    return f"{symbol}{amount:,.2f}" if symbol else f"{amount:,.2f}"
 
 
 def validate_date_range(

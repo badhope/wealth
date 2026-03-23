@@ -16,6 +16,33 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true
       }
-    }
+    },
+    hmr: {
+      overlay: true
+    },
+    compress: true
+  },
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-vue': ['vue', 'vue-router', 'pinia'],
+          'vendor-echarts': ['echarts', 'vue-echarts'],
+          'vendor-utils': ['@vueuse/core', 'dayjs', 'axios']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
+  },
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'pinia', 'echarts', 'vue-echarts', 'axios']
   }
 })
