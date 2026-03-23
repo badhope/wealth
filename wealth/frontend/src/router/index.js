@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('@/views/BacktestView.vue')
     },
     {
+      path: '/prediction',
+      name: 'prediction',
+      component: () => import('@/views/PredictionView.vue')
+    },
+    {
       path: '/alerts',
       name: 'alerts',
       component: () => import('@/views/AlertsView.vue')
@@ -37,6 +42,11 @@ const router = createRouter({
       path: '/portfolio',
       name: 'portfolio',
       component: () => import('@/views/PortfolioView.vue')
+    },
+    {
+      path: '/monitoring',
+      name: 'monitoring',
+      component: () => import('@/views/MonitoringView.vue')
     }
   ]
 })

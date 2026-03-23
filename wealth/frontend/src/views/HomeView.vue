@@ -26,8 +26,10 @@
     <div class="quick-actions">
       <router-link to="/stocks" class="action-btn">搜索股票</router-link>
       <router-link to="/backtest" class="action-btn">回测策略</router-link>
+      <router-link to="/prediction" class="action-btn">价格预测</router-link>
       <router-link to="/alerts" class="action-btn">价格预警</router-link>
       <router-link to="/portfolio" class="action-btn">我的持仓</router-link>
+      <router-link to="/monitoring" class="action-btn">系统监控</router-link>
     </div>
   </div>
 </template>

@@ -528,3 +528,65 @@ async def list_strategies():
             {"name": "supertrend", "description": "SuperTrend strategy"},
         ]
     }
+
+
+@router.post("/prediction")
+async def predict_price(request: dict):
+    try:
+        symbol = request.get("symbol")
+        model_type = request.get("model", "ensemble")
+        days = request.get("days", 30)
+
+        if not symbol:
+            raise HTTPException(status_code=400, detail="Symbol is required")
+
+        kline_data = await get_kline_data(KlineRequest(
+            symbol=symbol,
+            start_date="2020-01-01",
+            end_date=datetime.now().strftime("%Y-%m-%d"),
+        ))
+
+        df = pd.DataFrame([
+            {
+                "timestamp": k.timestamp,
+                "open": k.open,
+                "high": k.high,
+                "low": k.low,
+                "close": k.close,
+                "volume": k.volume,
+            }
+            for k in kline_data
+        ])
+        df.set_index("timestamp", inplace=True)
+
+        from wealth.ml.predictor import PricePredictor
+        predictor = PricePredictor()
+        result = predictor.predict(df, model=model_type, days=days)
+
+        historical_dates = df.index.tolist()[-50:]
+        predicted_dates = [f"D_{i+1}" for i in range(len(result.predicted))]
+
+        chart_data = {
+            "dates": [str(d) for d in historical_dates] + predicted_dates,
+            "historical": df['close'].tolist()[-50:],
+            "predicted": result.predicted.tolist(),
+            "upper": result.confidence_upper.tolist(),
+            "lower": result.confidence_lower.tolist(),
+        }
+
+        return {
+            "symbol": symbol,
+            "model": model_type,
+            "predicted": result.predicted.tolist(),
+            "confidence_lower": result.confidence_lower.tolist(),
+            "confidence_upper": result.confidence_upper.tolist(),
+            "metrics": result.metrics,
+            "chartData": chart_data,
+            "currentPrice": df['close'].iloc[-1],
+            "predictedPrice": result.predicted[-1] if len(result.predicted) > 0 else df['close'].iloc[-1],
+            "change": ((result.predicted[-1] - df['close'].iloc[-1]) / df['close'].iloc[-1] * 100) if len(result.predicted) > 0 else 0,
+            "feature_importance": result.feature_importance.to_dict("records") if result.feature_importance is not None else None,
+        }
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

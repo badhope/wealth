@@ -1,17 +1,42 @@
-# 操作系统文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+.env
+.venv
+env/
+venv/
+ENV/
+node_modules/
 .DS_Store
-Thumbs.db
-
-# 编辑器文件
-.vscode/
-.idea/
 *.swp
 *.swo
 *~
-
-# 日志文件
-*.log
-
-# 临时文件
-*.tmp
-*.bak
+.idea/
+.vscode/
+*.o
+*.so
+*.woff
+*.woff2
+*.ttf
+.erkcache

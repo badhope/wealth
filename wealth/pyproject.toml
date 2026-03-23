@@ -1,6 +1,6 @@
 [project]
 name = "wealth"
-version = "0.1.0"
+version = "0.2.0"
 description = "A quantitative analysis platform for stocks and funds"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -10,7 +10,7 @@ authors = [
 ]
 keywords = ["quantitative", "trading", "stocks", "finance", "analysis"]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Financial and Insurance Industry",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -44,6 +44,10 @@ dependencies = [
     "plyer>=2.1.0",
     "dingtalk-sdk>=2.7.5",
     "wechatpy>=2.0.22",
+    "cryptography>=41.0.0",
+    "xgboost>=2.0.0",
+    "scipy>=1.11.0",
+    "pmdarima>=2.0.0",
 ]
 
 [project.optional-dependencies]
