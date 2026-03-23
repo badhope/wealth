@@ -2,16 +2,42 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-0.3.0-blue)
+![Version](https://img.shields.io/badge/version-0.4.0-blue)
 ![Python](https://img.shields.io/badge/python-3.10+-green)
 ![Vue](https://img.shields.io/badge/vue-3.4-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![Security](https://img.shields.io/badge/security-enabled-green)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-brightgreen)
+![Performance](https://img.shields.io/badge/performance-optimized-blue)
 
 **[English](#english) | [中文](#中文)**
 
 </div>
+
+---
+
+## ✨ 新功能 / New Features v0.4.0
+
+### 🚀 性能优化 / Performance Optimization
+- **LRU 缓存系统** - 高效内存缓存，支持 TTL 过期
+- **性能监控中间件** - 实时追踪请求耗时
+- **自动缓存装饰器** - `@cached` 注解自动缓存函数结果
+- **API 性能统计** - `/api/v1/performance/stats` 端点
+
+### 🔄 CI/CD 自动化 / CI/CD Automation
+- **GitHub Actions** - 全自动化构建、测试、部署
+- **多版本测试** - Python 3.10, 3.11
+- **安全扫描** - Bandit + Safety 检查
+- **一键部署** - Staging / Production 自动部署
+- **Docker 支持** - 容器化镜像构建
+
+### 📊 基准测试 / Benchmark Results
+| 操作 | 吞吐量 | 平均耗时 |
+|------|--------|----------|
+| GET /health | 2,660,991 ops/s | 0.0004 ms |
+| cache_get | 157,666 ops/s | 0.0063 ms |
+| cache_set | 22,848 ops/s | 0.0438 ms |
 
 ---
 
@@ -23,6 +49,8 @@
 - 🔒 **安全防护** - 反爬虫、频率限制、数据加密
 - 🌐 **双语支持** - 中英文界面一键切换
 - 📱 **响应式设计** - 适配桌面端、移动端
+- 🚀 **性能优化** - LRU缓存、智能监控、高吞吐量
+- 🔄 **CI/CD** - GitHub Actions 全自动化流水线
 
 ---
 
@@ -49,6 +77,11 @@
 - **数据加密**: AES-256 加密算法
 - **RBAC 权限控制**: 角色权限管理
 
+### 性能优化 / Performance
+- **多级缓存**: LRU + Timed 双缓存策略
+- **请求监控**: 实时性能指标追踪
+- **自动优化**: 缓存命中率统计
+
 ---
 
 ## 🚀 快速开始 / Quick Start
@@ -60,6 +93,7 @@
 | Python | 3.10+ |
 | Node.js | 18+ |
 | npm/yarn | Latest |
+| Git | Latest |
 
 ### 安装 / Installation
 
@@ -99,8 +133,25 @@ npm run dev
 ### 运行测试 / Run Tests
 
 ```bash
+# Simulation test
 cd wealth/scripts
 python simulation_test.py
+
+# Performance benchmark
+python performance_benchmark.py
+```
+
+### Docker 部署 / Docker Deployment
+
+```bash
+# Build backend image
+docker build -f Dockerfile.backend -t wealth-backend:latest .
+
+# Build frontend image
+docker build -f wealth/frontend/Dockerfile -t wealth-frontend:latest .
+
+# Run with docker-compose
+docker-compose up -d
 ```
 
 ---
@@ -109,6 +160,9 @@ python simulation_test.py
 
 ```
 wealth/
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml          # GitHub Actions CI/CD
 ├── src/                         # Backend source
 │   └── wealth/
 │       ├── api/                # API routes
@@ -116,20 +170,78 @@ wealth/
 │       ├── engine/             # Quantitative engine
 │       ├── ml/                 # Machine learning
 │       ├── security/           # Security module
-│       ├── utils/              # Utilities
+│       ├── utils/              # Utilities (performance.py)
 │       ├── vis/                # Visualization
 │       └── main.py             # Entry point
 ├── frontend/                    # Frontend source
 │   └── src/
-│       ├── api/               # API calls
-│       ├── assets/            # Styles
-│       ├── components/        # UI components
-│       ├── i18n/              # Internationalization
-│       ├── router/            # Routes
-│       └── views/             # Pages
-├── scripts/                    # Scripts
-├── docs/                       # Documentation
-└── data/                      # Data directory
+│       ├── api/                # API calls
+│       ├── assets/             # Styles
+│       ├── components/         # UI components
+│       ├── i18n/               # Internationalization
+│       ├── router/             # Routes
+│       └── views/              # Pages
+├── scripts/                     # Scripts
+│   ├── simulation_test.py     # Simulation tests
+│   └── performance_benchmark.py # Performance benchmarks
+├── docs/                        # Documentation
+│   ├── API_PROTOCOL.md         # API documentation
+│   ├── CONTRIBUTING.md         # Contributing guide
+│   └── CODE_OF_CONDUCT.md      # Code of conduct
+└── data/                       # Data directory
+```
+
+---
+
+## 🔌 API 接口 / API Reference
+
+完整 API 文档: [API_PROTOCOL.md](docs/API_PROTOCOL.md)
+
+### 核心端点 / Core Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/health` | Health check with performance stats |
+| GET | `/api/v1/security/stats` | Security monitoring stats |
+| GET | `/api/v1/performance/stats` | Performance metrics |
+| GET | `/api/v1/performance/cache/clear` | Clear cache |
+| POST | `/api/v1/stocks/quote/realtime` | Real-time quote |
+| POST | `/api/v1/stocks/kline` | K-line data |
+| POST | `/api/v1/indicators/calculate` | Calculate indicators |
+| POST | `/api/v1/backtest/run` | Run backtest |
+| POST | `/api/v1/strategy/list` | Strategy list |
+| GET | `/api/v1/funds/list` | Fund list |
+| POST | `/api/v1/prediction/predict` | AI prediction |
+
+### 性能端点 / Performance Endpoints
+
+```bash
+# Get system performance stats
+curl http://localhost:8000/api/v1/performance/stats
+
+# Clear cache
+curl http://localhost:8000/api/v1/performance/cache/clear
+
+# Health check with stats
+curl http://localhost:8000/api/v1/health
+```
+
+响应示例:
+```json
+{
+  "status": "healthy",
+  "version": "0.4.0",
+  "uptime_seconds": 3600.5,
+  "security": {...},
+  "performance": {
+    "total_requests": 15000,
+    "cache_stats": {
+      "request_stats": {
+        "hit_rate": "85.32%"
+      }
+    }
+  }
+}
 ```
 
 ---
@@ -172,23 +284,6 @@ Wealth 支持中英文双语界面，可通过顶部导航栏的语言切换按�
 
 ---
 
-## 🔌 API 接口 / API Reference
-
-完整 API 文档: [API_PROTOCOL.md](docs/API_PROTOCOL.md)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/health` | Health check |
-| POST | `/api/v1/stocks/quote/realtime` | Real-time quote |
-| POST | `/api/v1/stocks/kline` | K-line data |
-| POST | `/api/v1/indicators/calculate` | Calculate indicators |
-| POST | `/api/v1/backtest/run` | Run backtest |
-| POST | `/api/v1/strategy/list` | Strategy list |
-| GET | `/api/v1/funds/list` | Fund list |
-| POST | `/api/v1/prediction/predict` | AI prediction |
-
----
-
 ## 🛠️ 技术栈 / Tech Stack
 
 ### Backend
@@ -211,6 +306,14 @@ Wealth 支持中英文双语界面，可通过顶部导航栏的语言切换按�
 | Pinia | State management |
 | Vue Router | Routing |
 | Vue I18n | Internationalization |
+
+### DevOps
+| Technology | Purpose |
+|------------|---------|
+| GitHub Actions | CI/CD pipeline |
+| Docker | Containerization |
+| Bandit | Security linting |
+| Safety | Dependency check |
 
 ---
 
@@ -247,6 +350,31 @@ Contributions are welcome! Please read our [Contributing Guide](docs/CONTRIBUTIN
 
 ---
 
+## 🔄 CI/CD 工作流 / CI/CD Workflow
+
+### 自动触发 / Auto Triggers
+
+| Event | Action |
+|-------|--------|
+| Push to `main` | Run tests, build, deploy to production |
+| Push to `develop` | Run tests, build, deploy to staging |
+| Pull Request | Run tests, lint, security scan |
+| Manual | Run benchmark, build Docker images |
+
+### 工作流程 / Workflows
+
+```mermaid
+graph LR
+    A[Push/PR] --> B[Lint & Test]
+    B --> C[Security Scan]
+    C --> D{Branch?}
+    D -->|main| E[Deploy Production]
+    D -->|develop| F[Deploy Staging]
+    D -->|other| G[Skip Deploy]
+```
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -267,6 +395,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ by [badhope](https://github.com/badhope)**
 
+[![GitHub stars](https://img.shields.io/github/stars/badhope/wealth?style=social)](https://github.com/badhope/wealth/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/badhope/wealth?style=social)](https://github.com/badhope/wealth/network/members)
+
 </div>
 
 ---
@@ -285,20 +416,49 @@ Wealth 是一个专业的智能量化分析平台，致力于为投资者提供�
 4. **AI 预测** - 基于机器学习的价格预测
 5. **风险管理** - 组合管理和风险控制
 6. **预警通知** - 自定义规则和实时通知
+7. **性能优化** - 多级缓存、高吞吐量
+8. **CI/CD** - 全自动化部署流水线
 
 ### 安装步骤
 
-1. 克隆仓库
+1. 克隆仓库: `git clone https://github.com/badhope/wealth.git`
 2. 安装 Python 依赖: `pip install -r requirements.txt`
 3. 安装前端依赖: `cd frontend && npm install`
 4. 启动后端: `cd src && python -m wealth.main`
 5. 启动前端: `cd frontend && npm run dev`
+
+### 运行测试
+
+```bash
+# 模拟测试
+cd wealth/scripts
+python simulation_test.py
+
+# 性能基准测试
+python performance_benchmark.py
+```
+
+### CI/CD
+
+项目已配置 GitHub Actions，每次 push 到 main 分支会自动：
+1. 运行后端和前端测试
+2. 执行安全扫描
+3. 构建 Docker 镜像
+4. 部署到生产环境
 
 ### 技术支持
 
 如有问题，请提交 Issue 或联系维护者。
 
 ### 更新日志
+
+#### v0.4.0
+- 添加性能优化模块（LRU缓存、性能监控）
+- 添加 GitHub Actions CI/CD 流水线
+- 添加性能基准测试脚本
+- 添加 Docker 构建支持
+- 优化前端构建配置（vendor分包、压缩）
+- 添加新的API端点（性能统计、缓存管理）
 
 #### v0.3.0
 - 添加中英文双语支持
